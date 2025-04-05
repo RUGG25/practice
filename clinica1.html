@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clínica Médica</title>
+  <style>
+    body {
+      font-family: Calibri, sans-serif;
+      font-size: 10pt;
+      margin: 20px;
+      background-color: #f4f4f4;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    section {
+      background: #ffffff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+      font-size: 10pt;
+      font-family: Calibri;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 10pt;
+      font-family: Calibri;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Clínica Médica Integral</h1>
+
+  <section>
+    <h2>¿Quiénes somos?</h2>
+    <p>Somos una clínica comprometida con el bienestar y la salud de nuestros pacientes, ofreciendo atención médica especializada con profesionales altamente calificados.</p>
+  </section>
+
+  <section>
+    <h2>Especialidades</h2>
+    <ul>
+      <li>Ginecología</li>
+      <li>Gastroenterología</li>
+      <li>Pediatría</li>
+      <li>Cardiología</li>
+      <li>Psicología</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Curriculum Vitae</h2>
+    <p>Nuestro equipo médico cuenta con más de 20 años de experiencia en sus respectivas áreas, con formación en las mejores universidades del país y el extranjero.</p>
+  </section>
+
+  <section>
+    <h2>Formulario para Agendar Cita Médica</h2>
+    <form id="citaForm">
+      <label>Nombre completo:
+        <input type="text" name="nombre" required>
+      </label>
+
+      <label>Edad:
+        <input type="number" name="edad" min="0" max="99" required>
+      </label>
+
+      <label>Sexo:
+        <select name="sexo" required>
+          <option value="">Seleccione</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Masculino">Masculino</option>
+        </select>
+      </label>
+
+      <label>Tipo de sangre:
+        <input type="text" name="sangre" placeholder="Ej: O+, A-, AB+" required>
+      </label>
+
+      <label>Ocupación:
+        <input type="text" name="ocupacion" required>
+      </label>
+
+      <label>Estado civil:
+        <select name="estadoCivil" required>
+          <option value="">Seleccione</option>
+          <option value="Casado">Casado</option>
+          <option value="Divorciado">Divorciado</option>
+          <option value="Soltero">Soltero</option>
+        </select>
+      </label>
+
+      <label>Número telefónico:
+        <input type="tel" name="telefono" pattern="\d{10}" required>
+      </label>
+
+      <label>Correo electrónico:
+        <input type="email" name="email" required>
+      </label>
+
+      <label>Especialidad:
+        <select name="especialidad" required>
+          <option value="">Seleccione</option>
+          <option value="Ginecología">Ginecología</option>
+          <option value="Gastroenterología">Gastroenterología</option>
+          <option value="Pediatría">Pediatría</option>
+          <option value="Cardiología">Cardiología</option>
+          <option value="Psicología">Psicología</option>
+        </select>
+      </label>
+
+      <label>Fecha:
+        <input type="date" name="fecha" required>
+      </label>
+
+      <button type="submit">Agendar Cita</button>
+    </form>
+  </section>
+
+  <script>
+    const form = document.getElementById('citaForm');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      try {
+        const response = await fetch('https://your-google-sheets-webhook-url.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          alert('Cita agendada con éxito.');
+          form.reset();
+        } else {
+          alert('Error al agendar la cita.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Hubo un problema al enviar el formulario.');
+      }
+    });
+  </script>
+
+</body>
+</html>
